@@ -1,9 +1,5 @@
 // rewrite some prototype
 var netjs = require("../lib/net");
-
-//extend global
-global.isValidNative = __isValidNativeObject;
-
 // extend node
 // insert to spx
 cc.Node.prototype.__play = function (spx_name, loop, sync) {
@@ -34,7 +30,7 @@ cc.Node.prototype.__stop = function () {
 // hook stop action
 cc.Node.prototype.__stopAction = cc.Node.prototype.stopAction;
 cc.Node.prototype.stopAction = function (action) {
-    if (global.isValidNative(action)) {
+    if (global.fn.isValidNative(action)) {
         this.__stopAction(action);
     }
 }
@@ -90,7 +86,7 @@ cc.Node.prototype.setShaderArgs = function (name) {
 
 // is valid native object
 cc.Node.prototype.isValidNative = function () {
-    return global.isValidNative(this);
+    return global.fn.isValidNative(this);
 }
 
 // safe remove from parent

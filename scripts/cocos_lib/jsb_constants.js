@@ -7,3 +7,6 @@ global.events = new emitter();
 require('./jsb_constants_cocos2d');
 require('./jsb_constants_gl');
 require('./jsb_constants_cocosbuilder');
+
+/*屏幕适配*/
+global.screen_adapter = require("./screen_adapter").screen_adapter;

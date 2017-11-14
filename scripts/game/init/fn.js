@@ -5,19 +5,19 @@ function initialize(){
 	/**
 	*js对象对应的native对象是否可用
 	*/
-	this.nativeIsValid = function(nativeObjRef){
+	this.isValidNative = function(nativeObjRef){
 		return __isValidNativeObject(nativeObjRef);
 	}
 
-	this.importModule("../../game_lib/game_utils");
-	this.importModule("../../game_lib/ui");
-	this.importModule("../../game_lib/md5");
+	this.importFuncModule("../../game_lib/game_utils");
+	this.importFuncModule("../../game_lib/ui");
+	this.importFuncModule("../../game_lib/md5");
 }
 /**
-*导入模块 
+*导入函数模块
 *@param moduleName 
 */
-initialize.prototype.importModule = function(moduleName){
+initialize.prototype.importFuncModule = function(moduleName){
 	var funcObj = require(moduleName);
 	for(var key in funcObj){
 		this[key] = funcObj[key];

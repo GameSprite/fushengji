@@ -17,6 +17,9 @@ global.config = null;           //客户端的配置
 
 //TODO 全局对象初始化
 /*************************全局对象初始化***************************/
+//初始化cocos js 导出函数
+require("./cocos_lib/jsb_constants");
+
 //初始化全局方法
 global.fn = require("./game/init/fn").funcs;
 //初始化全局常量
@@ -85,9 +88,6 @@ if(jsonFiles){
         }
     });
 }
-
-//初始化cocos js 导出函数
-require("./cocos_lib/jsb_constants");
 
 //TODO 全局处理
 /*******************************全局处理************************************/

@@ -273,20 +273,6 @@ ui_manager.prototype.changeStatus = function (ui_name, not_pause) {
 
     console.log("changeStatus : " + ui_name);
     console.log("changeStatus : not_pause=%j", not_pause);      
-
-    //check do gc
-    if (!this.gc_doing && (global.gc.getMBytes() >= ui_manager.max_gc_mem || (__getNativeBytes()/1024/1024) >= ui_manager.max_native_mem)) {
-        this.gc_doing = true;
-
-        global.show_loading(true);
-        var that = this;
-        setTimeout(function () {
-            global.gc.do();
-            global.show_loading(false);
-            that.gc_doing = false;
-        }, 1);
-    }
-
     // check update status
     var update_func;
     if (arguments.length > 2) {
@@ -730,7 +716,6 @@ ui_manager.prototype.clean = function (except) {
     cc.SpriteFrameCache.getInstance().removeUnusedSpriteFrames();
     cc.TextureCache.getInstance().removeUnusedTextures();
 	cc.removeUnusedAnimation();
-	global.gc.do();
 }
 
 //  real get active node names
@@ -825,68 +810,10 @@ ui_manager.prototype.getMaskLayer = function () {
 
 //create scene
 function create_scene() {
-
     var director = cc.Director.getInstance();
     director.setDisplayStats(global.debug == 1);
     director.setAnimationInterval(1.0 / 60);
     var mainScene = cc.Scene.create();
-
-    // set scene frame
-    if (global.screen_adapter.need_frame) {
-        var frame = cc.Sprite.create(global.res.jpg('res_background'));
-        global.screen_adapter.setSceneFrame(mainScene, frame);
-    }
-    
     return mainScene;
 }
-
-//set memory handler
-function setmemory() {
-
-    //for gc
-    //ui_manager.max_gc_mem = 25;         //Mb
-    ui_manager.max_gc_mem = 50;         //Mb
-    //for native buffer gc
-    //ui_manager.max_native_mem = 10;     //Mb
-
-    ui_manager.max_native_mem = 20;     //Mb
-
-    //do not use too much memory.
-    //var max_total = 800;                //Mb
-    var max_total = 2000;                //Mb
-    //memory level : (M)
-    var total = os.totalmem();
-    if (total > max_total) {
-        total = max_total;
-    }
-
-    if (os.platform() == 'ios') {
-        ui_manager.max_mem = ~~(total / 3);
-    } else {
-        ui_manager.max_mem = ~~(total);
-    }
-
-    // if windows, zero max mem to debug
-    if (os.platform() == 'windows') {
-        //ui_manager.max_mem = 0;
-    }
-
-    //when background , we release some resources to improve load speed when foreground again in android.
-    global.events.on("background", function () {
-
-        //remove all
-        if (exports.StatusManager) {
-            exports.StatusManager.clean();
-        }
-    })
-
-    // set white list
-    ui_manager.white_list = [
-        'ui_main',
-        'ui_loading',
-    ];
-}
-
-
-setmemory();
 exports.StatusManager = new ui_manager(create_scene());

@@ -63,7 +63,7 @@ function _hide() {
         touch_timeout = null;
     }
 
-    if (global.isValidNative(node)) {
+    if (global.fn.isValidNative(node)) {
         node.setVisible(false);
         effect_node.stop();
     }

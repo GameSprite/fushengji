@@ -12,6 +12,5 @@ function initialize(){
 	/*音频管理器*/
 	this.audio_manager = 	require("../../game_lib/audio_player").AudioManager;
 	/*着色器管理器*/
-	this.shader_manager = 	require("../../game_lib/shader").shaderMannager;
 }
 exports.modules = new initialize;

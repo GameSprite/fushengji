@@ -46,7 +46,7 @@ exports.add_tonchnode = function (node,size)
 //移除吞噬层
 exports.remove_tonchnode = function (node) 
 {
-   if (!global.isNull(node) && global.isValidNative(node) && (node instanceof cc.Node || node instanceof cc.Layer))
+   if (!global.isNull(node) && global.fn.isValidNative(node) && (node instanceof cc.Node || node instanceof cc.Layer))
    {
         if (node.getChildByTag && node.getChildByTag(touch_node_tag))
         {
